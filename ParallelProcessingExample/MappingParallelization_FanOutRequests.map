@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><mappingRoot xmlns="http://www.ibm.com/2008/ccl/Mapping" domainID="com.ibm.msl.mapping.xml" domainIDExtension="mb" mainMap="true" targetNamespace="default" version="8.0.5.0" xmlns:map="default">
+    <input path="/ProductList.xsd" var="var2"/>
+    <output path="/ProductList.xsd" var="var5"/>
+    <namespaces>
+        <namespace kind="supplement" prefix="out" uri="http://www.ibm.com/msl/cache/1.0"/>
+        <namespace kind="supplement" prefix="io" uri="https://www.refactorit.sk"/>
+    </namespaces>
+    <generation engine="xquery"/>
+    <mappingDeclaration name="MappingParallelization_FanOutRequests">
+        <input namespace="https://www.refactorit.sk" path="$var2/mb:msg(product-list,assembly,XMLNSC,Properties)" var="MessageAssembly"/>
+        <output namespace="https://www.refactorit.sk" path="$var5/mb:msg(product,assembly,XMLNSC,Properties)" var="MessageAssembly1"/>
+        <foreach>
+            <input path="$MessageAssembly/product-list/product"/>
+            <output path="$MessageAssembly1/."/>
+            <move>
+                <input path="id"/>
+                <output path="product/id"/>
+            </move>
+        </foreach>
+    </mappingDeclaration>
+</mappingRoot>
